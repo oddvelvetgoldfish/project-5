@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Categories } from '../components/categories';
+import { QuestionsList } from '../components/questions-list';
 
 interface Category {
   id: number;
@@ -93,6 +94,7 @@ export const Dashboard = () => {
                 {selectedCategory.name} - Questions
               </h2>
             </div>
+            <QuestionsList questions={questions} />
           </>
         ) : (
           <p>Select a category to view its questions.</p>
