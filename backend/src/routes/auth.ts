@@ -7,9 +7,9 @@ const router = express.Router();
 
 // Register
 router.post('/register', async (req, res) => {
-  const { username, password, confirmPassword, agreeToTerms } = req.body;
+  const { username, password, confirmPassword } = req.body;
   // Validate input
-  if (!username || !password || !confirmPassword || !agreeToTerms) {
+  if (!username || !password || !confirmPassword) {
     res.status(400).json({ message: 'All fields are required' });
     return;
   }
