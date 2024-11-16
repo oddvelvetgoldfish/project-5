@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 
 interface Errors {
   username?: string;
@@ -12,6 +13,7 @@ export const Register = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState<Errors>({});
+  const navigate = useNavigate();
 
   const validate = () => {
     const newErrors: Errors = {};
@@ -44,7 +46,7 @@ export const Register = () => {
       const data = await response.json();
 
       if (response.ok) {
-        alert(data.message);
+        navigate('/');
       } else {
         setErrors({ general: data.message || 'Registration failed.' });
       }
@@ -122,6 +124,12 @@ export const Register = () => {
         >
           Register
         </button>
+        <p className='mt-4 text-center'>
+          Already have an account?{' '}
+          <Link to='/' className='text-blue-500 hover:underline'>
+            Login
+          </Link>
+        </p>
       </form>
     </div>
   );
