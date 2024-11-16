@@ -68,6 +68,10 @@ export const Dashboard = () => {
     navigate('/');
   };
 
+  const handleNewQuestion = () => {
+    if (selectedCategory) navigate(`/new-question/${selectedCategory.id}`);
+  };
+
   return (
     <div className='flex h-screen'>
       <aside className='w-64 bg-gray-200 p-4 overflow-y-auto'>
@@ -93,6 +97,12 @@ export const Dashboard = () => {
               <h2 className='text-xl font-semibold'>
                 {selectedCategory.name} - Questions
               </h2>
+              <button
+                className='bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600'
+                onClick={handleNewQuestion}
+              >
+                New Question
+              </button>
             </div>
             <QuestionsList questions={questions} />
           </>
