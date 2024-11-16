@@ -3,6 +3,7 @@ import { Register } from './pages/register';
 import { Login } from './pages/login';
 import { Dashboard } from './pages/dashboard';
 import { PrivateRoute } from './components/protected-route';
+import { NewQuestion } from './pages/new-question';
 
 export const App = () => {
   return (
@@ -17,6 +18,16 @@ export const App = () => {
           </PrivateRoute>
         }
       />
+      <Route path='new-question'>
+        <Route
+          path=':categoryId'
+          element={
+            <PrivateRoute>
+              <NewQuestion />
+            </PrivateRoute>
+          }
+        />
+      </Route>
     </Routes>
   );
 };
