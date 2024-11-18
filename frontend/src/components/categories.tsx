@@ -1,9 +1,5 @@
 import React from 'react';
-
-interface Category {
-  id: number;
-  name: string;
-}
+import { Category } from '../types';
 
 interface CategoriesProps {
   categories: Category[];

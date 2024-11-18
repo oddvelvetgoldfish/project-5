@@ -24,3 +24,15 @@ export interface Question {
     username: string;
   };
 }
+
+export interface Answer {
+  id: number;
+  content: string;
+  user_id: number;
+  question_id: number;
+  created_at: string;
+  user: {
+    id: number;
+    username: string;
+  };
+}

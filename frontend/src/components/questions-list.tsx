@@ -1,17 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-interface Question {
-  id: number;
-  content: string;
-  user_id: number;
-  category_id: number;
-  created_at: string;
-  user: {
-    id: number;
-    username: string;
-  };
-}
+import { Question } from '../types';
 
 interface QuestionsListProps {
   questions: Question[];

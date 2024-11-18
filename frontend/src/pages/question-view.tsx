@@ -1,30 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AnswerModal } from '../components/answer-modal';
-
-interface Question {
-  id: number;
-  content: string;
-  user_id: number;
-  category_id: number;
-  created_at: string;
-  user: {
-    id: number;
-    username: string;
-  };
-}
-
-interface Answer {
-  id: number;
-  content: string;
-  user_id: number;
-  question_id: number;
-  created_at: string;
-  user: {
-    id: number;
-    username: string;
-  };
-}
+import { Answer, Question } from '../types';
 
 export const QuestionView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
