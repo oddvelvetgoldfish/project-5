@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { login } from '../api';
 
 export const Login = () => {
   const [username, setUsername] = useState('');
@@ -17,23 +18,17 @@ export const Login = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-      });
+      const data = await login({ username, password });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('username', data.username);
-        navigate('/dashboard');
-      } else {
-        setError(data.message || 'Login failed.');
-      }
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('username', data.username);
+      navigate('/dashboard');
     } catch (err) {
-      setError('An error occurred during login.');
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An error occurred during login.');
+      }
       console.error(err);
     }
   };
