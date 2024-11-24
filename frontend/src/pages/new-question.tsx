@@ -1,13 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { submitQuestion } from '../api';
+import { fetchCategories, submitQuestion } from '../api';
+import { Category } from '../types';
 
 export const NewQuestion = () => {
   const { categoryId } = useParams<{ categoryId: string }>();
+  const [categories, setCategories] = useState<Category[]>([]);
   const [content, setContent] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const categories = await fetchCategories(token!);
+        setCategories(categories);
+      } catch (err) {
+        console.error('Error fetching categories:', err);
+        setError('Failed to load categories.');
+      }
+    };
+
+    loadCategories();
+  }, [token]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,7 +55,10 @@ export const NewQuestion = () => {
         className='bg-white p-6 rounded shadow-md w-full max-w-lg'
         onSubmit={handleSubmit}
       >
-        <h2 className='text-2xl mb-4'>New Question</h2>
+        <h2 className='text-2xl mb-4'>
+          New Question:{' '}
+          {categories.find((c) => c.id === Number(categoryId))?.name}
+        </h2>
         {error && <p className='text-red-500'>{error}</p>}
         <div className='mb-4'>
           <label className='block'>Question</label>
