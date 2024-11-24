@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AnswerModal } from '../components/answer-modal';
+import { fetchQuestion, submitAnswer } from '../api';
 import { Answer, Question } from '../types';
 
 export const QuestionView: React.FC = () => {
@@ -8,31 +9,31 @@ export const QuestionView: React.FC = () => {
   const [question, setQuestion] = useState<Question | null>(null);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [showAnswerModal, setShowAnswerModal] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchQuestion = async () => {
+    if (!id || !token) {
+      setError('Invalid question ID or missing authentication');
+      navigate('/');
+      return;
+    }
+
+    const loadQuestion = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:3000/api/questions/${id}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        const data = await response.json();
-        if (response.ok) {
-          setQuestion(data.question);
-          setAnswers(data.answers);
-        } else {
-          console.error('Error fetching question:', data.message);
-        }
+        const data = await fetchQuestion(id, token);
+        setQuestion(data.question);
+        setAnswers(data.answers);
+        setError(null); // Clear any previous errors
       } catch (err) {
         console.error('Error fetching question:', err);
+        setError('Failed to load question');
       }
     };
-    fetchQuestion();
-  }, [id, token]);
+
+    loadQuestion();
+  }, [id, token, navigate]);
 
   const handleSubmitAnswer = async (content: string) => {
     if (!content.trim()) {
@@ -41,42 +42,12 @@ export const QuestionView: React.FC = () => {
     }
 
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/questions/${id}/answers`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ content }),
-        }
-      );
-
-      const data = await response.json();
-
-      if (response.ok) {
-        // Refresh answers
-        setAnswers((prevAnswers) => [
-          {
-            id: data.id,
-            content,
-            user_id: 0, // Update with actual user ID if available
-            question_id: Number(id),
-            created_at: new Date().toISOString(),
-            user: {
-              id: 0,
-              username: localStorage.getItem('username') || 'You',
-            },
-          },
-          ...prevAnswers,
-        ]);
-        setShowAnswerModal(false);
-      } else {
-        alert(data.message || 'Failed to submit answer.');
-      }
+      const newAnswer = await submitAnswer(id!, content, token!);
+      setAnswers((prevAnswers) => [newAnswer, ...prevAnswers]);
+      setShowAnswerModal(false);
     } catch (err) {
       console.error('Error submitting answer:', err);
+      alert('Failed to submit answer.');
     }
   };
 
@@ -109,6 +80,8 @@ export const QuestionView: React.FC = () => {
           Answer
         </button>
       </div>
+      {error && <p className='text-red-500 mb-4'>{error}</p>}{' '}
+      {/* Error Message */}
       <h3 className='text-xl mb-2'>Answers</h3>
       {answers.length > 0 ? (
         <ul>

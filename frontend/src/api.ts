@@ -1,4 +1,10 @@
-import { LoginRequest, LoginResponse, Category, Question } from './types';
+import {
+  Answer,
+  Category,
+  LoginRequest,
+  LoginResponse,
+  Question,
+} from './types';
 
 const API_BASE_URL = 'http://localhost:3000/api';
 
@@ -46,6 +52,47 @@ export const fetchQuestionsByCategory = async (
   if (!response.ok) {
     const errorData = await response.json();
     throw new Error(errorData.message || 'Failed to fetch questions');
+  }
+
+  return response.json();
+};
+
+export const fetchQuestion = async (
+  questionId: string,
+  token: string
+): Promise<{ question: Question; answers: Answer[] }> => {
+  const response = await fetch(`${API_BASE_URL}/questions/${questionId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Failed to fetch question');
+  }
+
+  return response.json();
+};
+
+export const submitAnswer = async (
+  questionId: string,
+  content: string,
+  token: string
+): Promise<Answer> => {
+  const response = await fetch(
+    `${API_BASE_URL}/questions/${questionId}/answers`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ content }),
+    }
+  );
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Failed to submit answer');
   }
 
   return response.json();
