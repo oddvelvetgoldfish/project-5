@@ -55,7 +55,13 @@ export const Dashboard = () => {
     }
   }, [categoryId, categories, token]);
 
-  const handleCategorySelect = (category: Category) => {
+  const handleCategorySelect = (category: Category | null) => {
+    if (!category) {
+      setSelectedCategory(null);
+      setQuestions([]);
+      navigate('/dashboard');
+      return;
+    }
     navigate(`/dashboard/${category.id}`);
   };
 
@@ -71,7 +77,15 @@ export const Dashboard = () => {
   return (
     <div className='flex h-screen'>
       <aside className='w-64 bg-gray-200 p-4 overflow-y-auto'>
-        <h2 className='text-xl font-semibold mb-4'>Categories</h2>
+        <button
+          className='text-xl font-semibold mb-4'
+          onClick={() => {
+            handleCategorySelect(null);
+          }}
+        >
+          Categories
+        </button>
+        {/* <h2 className='text-xl font-semibold mb-4'>Categories</h2> */}
         {error && <p className='text-red-500'>{error}</p>}
         <Categories
           categories={categories}
