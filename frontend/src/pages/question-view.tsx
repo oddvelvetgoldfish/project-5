@@ -53,7 +53,7 @@ export const QuestionView: React.FC = () => {
   };
 
   const handleBack = () => {
-    navigate('/dashboard');
+    navigate(`/dashboard/${question?.category_id}`);
   };
 
   if (!question) {

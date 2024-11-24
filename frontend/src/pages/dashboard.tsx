@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Categories } from '../components/categories';
 import { QuestionsList } from '../components/questions-list';
 import { fetchCategories, fetchQuestionsByCategory } from '../api';
@@ -16,6 +16,7 @@ export const Dashboard = () => {
   const username = localStorage.getItem('username');
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
+  const { categoryId } = useParams<{ categoryId: string }>();
 
   useEffect(() => {
     if (!token) {
@@ -37,18 +38,25 @@ export const Dashboard = () => {
     loadCategories();
   }, [token, navigate]);
 
-  const handleCategorySelect = async (category: Category) => {
-    setSelectedCategory(category);
-    setQuestions([]); // Clear questions while loading
-    setError(null);
-
-    try {
-      const questions = await fetchQuestionsByCategory(category.id, token!);
-      setQuestions(questions);
-    } catch (err) {
-      console.error('Error fetching questions:', err);
-      setError('Failed to load questions.');
+  useEffect(() => {
+    if (categoryId && token) {
+      const selected = categories.find(
+        (category) => category.id === Number(categoryId)
+      );
+      if (selected) {
+        setSelectedCategory(selected);
+        fetchQuestionsByCategory(selected.id, token)
+          .then((questions) => setQuestions(questions))
+          .catch((err) => {
+            console.error('Error fetching questions:', err);
+            setError('Failed to load questions.');
+          });
+      }
     }
+  }, [categoryId, categories, token]);
+
+  const handleCategorySelect = (category: Category) => {
+    navigate(`/dashboard/${category.id}`);
   };
 
   const handleLogout = () => {

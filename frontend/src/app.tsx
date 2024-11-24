@@ -18,7 +18,9 @@ export const App = () => {
             <Dashboard />
           </PrivateRoute>
         }
-      />
+      >
+        <Route path=':categoryId' element={<Dashboard />} />
+      </Route>
       <Route path='question'>
         <Route
           path=':id'
