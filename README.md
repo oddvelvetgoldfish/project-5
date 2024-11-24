@@ -43,8 +43,8 @@
 1. **Clone the Repository**:
 
    ```bash
-   git clone <repository-url>
-   cd <repository-directory>
+   git clone https://github.com/oddvelvetgoldfish/project-5.git
+   cd project-5
    ```
 
 2. **Set Up the Backend**:
