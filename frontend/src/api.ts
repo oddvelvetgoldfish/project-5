@@ -77,7 +77,7 @@ export const submitAnswer = async (
   questionId: string,
   content: string,
   token: string
-): Promise<Answer> => {
+): Promise<void> => {
   const response = await fetch(
     `${API_BASE_URL}/questions/${questionId}/answers`,
     {

@@ -42,8 +42,9 @@ export const QuestionView: React.FC = () => {
     }
 
     try {
-      const newAnswer = await submitAnswer(id!, content, token!);
-      setAnswers((prevAnswers) => [newAnswer, ...prevAnswers]);
+      await submitAnswer(id!, content, token!);
+      const { answers } = await fetchQuestion(id!, token!);
+      setAnswers(answers);
       setShowAnswerModal(false);
     } catch (err) {
       console.error('Error submitting answer:', err);
