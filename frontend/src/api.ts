@@ -117,3 +117,20 @@ export const submitQuestion = async (
     throw new Error(errorData.message || 'Failed to submit question');
   }
 };
+
+export const registerUser = async (
+  username: string,
+  password: string,
+  confirmPassword: string
+): Promise<void> => {
+  const response = await fetch(`${API_BASE_URL}/auth/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password, confirmPassword }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Registration failed');
+  }
+};

@@ -61,7 +61,7 @@ export const QuestionView: React.FC = () => {
   }
 
   return (
-    <div className='min-h-screen bg-gray-200 p-6'>
+    <div className='min-h-screen bg-gray-100 p-6'>
       <button
         onClick={handleBack}
         className='mb-6 text-blue-500 hover:underline text-lg'

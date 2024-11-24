@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { registerUser } from '../api';
 
 interface Errors {
   username?: string;
@@ -33,25 +34,10 @@ export const Register = () => {
     if (Object.keys(validationErrors).length > 0) return;
 
     try {
-      const response = await fetch('http://localhost:3000/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username,
-          password,
-          confirmPassword,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        navigate('/');
-      } else {
-        setErrors({ general: data.message || 'Registration failed.' });
-      }
-    } catch (err) {
-      setErrors({ general: 'An error occurred during registration.' });
+      await registerUser(username, password, confirmPassword);
+      navigate('/');
+    } catch (err: any) {
+      setErrors({ general: err.message || 'Registration failed.' });
       console.error(err);
     }
   };
