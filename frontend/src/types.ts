@@ -16,7 +16,7 @@ export interface Category {
 export interface Question {
   id: string;
   content: string;
-  user_id: string;
+  userId: string;
   categoryId: string;
   createdAt: string;
   user: {
@@ -28,8 +28,8 @@ export interface Question {
 export interface Answer {
   id: string;
   content: string;
-  user_id: string;
-  question_id: string;
+  userId: string;
+  questionId: string;
   createdAt: string;
   user: {
     id: string;

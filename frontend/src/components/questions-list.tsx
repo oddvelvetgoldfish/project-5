@@ -19,8 +19,7 @@ export const QuestionsList: React.FC<QuestionsListProps> = ({ questions }) => {
         setAnswers((prevAnswers) => [
           ...prevAnswers,
           ...answers.filter(
-            (answer) =>
-              !prevAnswers.some((prevAnswer) => prevAnswer.id === answer.id)
+            (answer) => !prevAnswers.some((a) => a.id === answer.id)
           ),
         ]);
       } catch (err) {
@@ -33,7 +32,7 @@ export const QuestionsList: React.FC<QuestionsListProps> = ({ questions }) => {
     <ul>
       {questions.map((question) => {
         const questionAnswers = answers.filter(
-          (answer) => answer.question_id === question.id
+          (answer) => answer.questionId === question.id
         );
 
         return (
