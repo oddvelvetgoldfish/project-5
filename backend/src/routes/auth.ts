@@ -7,9 +7,9 @@ export default function createAuthRoutes(userRepo: UserRepository) {
   const router = express.Router();
 
   router.post('/register', async (req, res) => {
-    const { username, password, confirmPassword } = req.body;
+    const { username, password, confirmPassword, agreeToTerms } = req.body;
 
-    if (!username || !password || !confirmPassword) {
+    if (!username || !password || !confirmPassword || !agreeToTerms) {
       res.status(400).json({ message: 'All fields are required' });
       return;
     }

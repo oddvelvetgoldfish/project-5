@@ -6,6 +6,7 @@ interface Errors {
   username?: string;
   password?: string;
   confirmPassword?: string;
+  agreeToTerms?: string;
   general?: string;
 }
 
@@ -13,6 +14,7 @@ export const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
   const navigate = useNavigate();
 
@@ -24,6 +26,7 @@ export const Register = () => {
       newErrors.password = 'Password must be at least 6 characters.';
     if (password !== confirmPassword)
       newErrors.confirmPassword = 'Passwords do not match.';
+    if (!agreeToTerms) newErrors.agreeToTerms = 'You must agree to the terms.';
     return newErrors;
   };
 
@@ -34,7 +37,7 @@ export const Register = () => {
     if (Object.keys(validationErrors).length > 0) return;
 
     try {
-      await registerUser(username, password, confirmPassword);
+      await registerUser(username, password, confirmPassword, agreeToTerms);
       navigate('/');
     } catch (err: any) {
       setErrors({ general: err.message || 'Registration failed.' });
@@ -102,6 +105,26 @@ export const Register = () => {
           />
           {errors.confirmPassword && (
             <p className='text-red-500 text-sm'>{errors.confirmPassword}</p>
+          )}
+        </div>
+        <div className='mb-4'>
+          <label className='inline-flex items-center'>
+            <input
+              type='checkbox'
+              className={`form-checkbox h-5 w-5 ${
+                errors.agreeToTerms ? 'text-red-500' : ''
+              }`}
+              checked={agreeToTerms}
+              onChange={(e) => {
+                setAgreeToTerms(e.target.checked);
+                if (errors.agreeToTerms)
+                  setErrors({ ...errors, agreeToTerms: undefined });
+              }}
+            />
+            <span className='ml-2'>I agree to the terms and conditions.</span>
+          </label>
+          {errors.agreeToTerms && (
+            <p className='text-red-500 text-sm'>{errors.agreeToTerms}</p>
           )}
         </div>
         <button

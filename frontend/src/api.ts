@@ -121,12 +121,13 @@ export const submitQuestion = async (
 export const registerUser = async (
   username: string,
   password: string,
-  confirmPassword: string
+  confirmPassword: string,
+  agreeToTerms: boolean
 ): Promise<void> => {
   const response = await fetch(`${API_BASE_URL}/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password, confirmPassword }),
+    body: JSON.stringify({ username, password, confirmPassword, agreeToTerms }),
   });
 
   if (!response.ok) {
