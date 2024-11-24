@@ -6,7 +6,8 @@ import {
   Question,
 } from './types';
 
-const API_BASE_URL = 'http://localhost:3000/api';
+// Get the API base URL from environment variables, default to empty string
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 export const login = async (
   credentials: LoginRequest
