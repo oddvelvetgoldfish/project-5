@@ -1,5 +1,7 @@
 # TechTalk
 
+### By Sara Gharagozlou
+
 **TechTalk** is a full-stack web application for exploring categorized discussions, asking questions, and providing answers. This platform enables users to engage with meaningful content and participate in community-driven knowledge sharing.
 
 ---
