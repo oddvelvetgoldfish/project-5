@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { initializeDB } from './db/mongodb';
@@ -32,6 +33,15 @@ app.use(
     userRepository
   )
 );
+
+// Serve static frontend files
+const clientBuildPath = path.join(__dirname, '../client');
+app.use(express.static(clientBuildPath));
+
+// Fallback for single-page application
+app.get('*', (req, res) => {
+  res.sendFile(path.join(clientBuildPath, 'index.html'));
+});
 
 const PORT = process.env.PORT || 5000;
 
