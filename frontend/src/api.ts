@@ -39,7 +39,7 @@ export const fetchCategories = async (token: string): Promise<Category[]> => {
 };
 
 export const fetchQuestionsByCategory = async (
-  categoryId: number,
+  categoryId: string,
   token: string
 ): Promise<Question[]> => {
   const response = await fetch(
@@ -100,7 +100,7 @@ export const submitAnswer = async (
 
 export const submitQuestion = async (
   content: string,
-  categoryId: number,
+  categoryId: string,
   token: string
 ): Promise<void> => {
   const response = await fetch(`${API_BASE_URL}/questions`, {

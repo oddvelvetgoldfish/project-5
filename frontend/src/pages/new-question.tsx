@@ -35,7 +35,7 @@ export const NewQuestion = () => {
     }
 
     try {
-      await submitQuestion(content, Number(categoryId), token!);
+      await submitQuestion(content, categoryId!, token!);
       navigate(`/dashboard/${categoryId}`);
     } catch (err: any) {
       setError(
@@ -56,8 +56,7 @@ export const NewQuestion = () => {
         onSubmit={handleSubmit}
       >
         <h2 className='text-2xl mb-4'>
-          New Question:{' '}
-          {categories.find((c) => c.id === Number(categoryId))?.name}
+          New Question: {categories.find((c) => c.id === categoryId)?.name}
         </h2>
         {error && <p className='text-red-500'>{error}</p>}
         <div className='mb-4'>

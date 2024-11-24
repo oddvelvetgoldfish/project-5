@@ -1,15 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { initializeDB } from './db/db';
+import { initializeDB } from './db/mongodb';
 import createAuthRoutes from './routes/auth';
 import createQuestionsRoutes from './routes/questions';
-import {
-  SQLiteUserRepository,
-  SQLiteCategoryRepository,
-  SQLiteQuestionRepository,
-  SQLiteAnswerRepository,
-} from './db/sqlite';
+import { MongoDBUserRepository } from './db/repos/user';
+import { MongoDBCategoryRepository } from './db/repos/category';
+import { MongoDBQuestionRepository } from './db/repos/question';
+import { MongoDBAnswerRepository } from './db/repos/answer';
 
 dotenv.config();
 
@@ -18,10 +16,10 @@ app.use(cors());
 app.use(express.json());
 
 // Initialize repositories
-const userRepository = new SQLiteUserRepository();
-const categoryRepository = new SQLiteCategoryRepository();
-const questionRepository = new SQLiteQuestionRepository();
-const answerRepository = new SQLiteAnswerRepository();
+const userRepository = new MongoDBUserRepository();
+const categoryRepository = new MongoDBCategoryRepository();
+const questionRepository = new MongoDBQuestionRepository();
+const answerRepository = new MongoDBAnswerRepository();
 
 // Register routes
 app.use('/api/auth', createAuthRoutes(userRepository));

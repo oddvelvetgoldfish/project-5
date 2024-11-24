@@ -4,7 +4,7 @@ import { Category } from '../types';
 interface CategoriesProps {
   categories: Category[];
   onSelect: (category: Category) => void;
-  selectedCategoryId?: number;
+  selectedCategoryId?: string;
 }
 
 export const Categories: React.FC<CategoriesProps> = ({

@@ -9,30 +9,30 @@ export interface LoginResponse {
 }
 
 export interface Category {
-  id: number;
+  id: string;
   name: string;
 }
 
 export interface Question {
-  id: number;
+  id: string;
   content: string;
-  user_id: number;
-  category_id: number;
-  created_at: string;
+  user_id: string;
+  categoryId: string;
+  createdAt: string;
   user: {
-    id: number;
+    id: string;
     username: string;
   };
 }
 
 export interface Answer {
-  id: number;
+  id: string;
   content: string;
-  user_id: number;
-  question_id: number;
-  created_at: string;
+  user_id: string;
+  question_id: string;
+  createdAt: string;
   user: {
-    id: number;
+    id: string;
     username: string;
   };
 }

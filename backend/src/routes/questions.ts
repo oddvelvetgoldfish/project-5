@@ -31,12 +31,12 @@ export default function createQuestionsRoutes(
     const { id } = req.params;
 
     try {
-      const questions = await questionRepo.getQuestionsByCategory(Number(id));
+      const questions = await questionRepo.getQuestionsByCategory(id);
 
       // Fetch user data for each question
       const questionsWithUser = await Promise.all(
         questions.map(async (question) => {
-          const user = await userRepo.findById(question.user_id);
+          const user = await userRepo.findById(question.userId);
           return {
             ...question,
             user: user ? { id: user.id, username: user.username } : null,
@@ -85,22 +85,22 @@ export default function createQuestionsRoutes(
     const { id } = req.params;
 
     try {
-      const question = await questionRepo.getQuestionDetails(Number(id));
+      const question = await questionRepo.getQuestionDetails(id);
       if (!question) {
         res.status(404).json({ message: 'Question not found' });
         return;
       }
 
-      const user = await userRepo.findById(question.user_id);
+      const user = await userRepo.findById(question.userId);
       const questionWithUser = {
         ...question,
         user: user ? { id: user.id, username: user.username } : null,
       };
 
-      const answers = await answerRepo.getAnswersByQuestion(Number(id));
+      const answers = await answerRepo.getAnswersByQuestion(id);
       const answersWithUser = await Promise.all(
         answers.map(async (answer) => {
-          const user = await userRepo.findById(answer.user_id);
+          const user = await userRepo.findById(answer.userId);
           return {
             ...answer,
             user: user ? { id: user.id, username: user.username } : null,
@@ -130,12 +130,7 @@ export default function createQuestionsRoutes(
 
       try {
         const createdAt = new Date().toISOString();
-        await answerRepo.createAnswer(
-          content,
-          req.userId!,
-          Number(id),
-          createdAt
-        );
+        await answerRepo.createAnswer(content, req.userId!, id, createdAt);
         res.status(201).json({ message: 'Answer submitted' });
       } catch (err) {
         console.error('Error submitting answer:', err);

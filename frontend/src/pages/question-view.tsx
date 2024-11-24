@@ -53,7 +53,7 @@ export const QuestionView: React.FC = () => {
   };
 
   const handleBack = () => {
-    navigate(`/dashboard/${question?.category_id}`);
+    navigate(`/dashboard/${question?.categoryId}`);
   };
 
   if (!question) {
@@ -73,7 +73,7 @@ export const QuestionView: React.FC = () => {
         <p className='text-sm text-gray-600'>
           Asked by{' '}
           <span className='font-semibold'>{question.user.username}</span> on{' '}
-          {new Date(question.created_at).toLocaleString()}
+          {new Date(question.createdAt).toLocaleString()}
         </p>
         <button
           className='mt-6 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600'
@@ -97,7 +97,7 @@ export const QuestionView: React.FC = () => {
               <p className='text-sm text-gray-500 mt-2'>
                 Answered by{' '}
                 <span className='font-semibold'>{answer.user.username}</span> on{' '}
-                {new Date(answer.created_at).toLocaleString()}
+                {new Date(answer.createdAt).toLocaleString()}
               </p>
             </li>
           ))}

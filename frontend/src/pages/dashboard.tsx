@@ -41,7 +41,7 @@ export const Dashboard = () => {
   useEffect(() => {
     if (categoryId && token) {
       const selected = categories.find(
-        (category) => category.id === Number(categoryId)
+        (category) => category.id === categoryId
       );
       if (selected) {
         setSelectedCategory(selected);

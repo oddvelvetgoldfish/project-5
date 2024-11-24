@@ -14,7 +14,7 @@ export const QuestionsList: React.FC<QuestionsListProps> = ({ questions }) => {
   useEffect(() => {
     questions.map(async (question) => {
       try {
-        const { answers } = await fetchQuestion(question.id.toString(), token!);
+        const { answers } = await fetchQuestion(question.id, token!);
         // deduplicate answers
         setAnswers((prevAnswers) => [
           ...prevAnswers,
@@ -46,7 +46,7 @@ export const QuestionsList: React.FC<QuestionsListProps> = ({ questions }) => {
             </Link>
             <p className='text-sm text-gray-500'>
               Asked by {question.user.username} on{' '}
-              {new Date(question.created_at).toLocaleString()}
+              {new Date(question.createdAt).toLocaleString()}
             </p>
             <p className='text-sm text-gray-500'>
               {questionAnswers.length} answer
