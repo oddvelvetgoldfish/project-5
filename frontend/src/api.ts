@@ -97,3 +97,23 @@ export const submitAnswer = async (
 
   return response.json();
 };
+
+export const submitQuestion = async (
+  content: string,
+  categoryId: number,
+  token: string
+): Promise<void> => {
+  const response = await fetch(`${API_BASE_URL}/questions`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ content, categoryId }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Failed to submit question');
+  }
+};

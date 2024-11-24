@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { submitQuestion } from '../api';
 
 export const NewQuestion = () => {
   const { categoryId } = useParams<{ categoryId: string }>();
@@ -18,30 +19,18 @@ export const NewQuestion = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/api/questions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ content, categoryId: Number(categoryId) }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        navigate(`/dashboard/${categoryId}`);
-      } else {
-        setError(data.message || 'Failed to submit question.');
-      }
-    } catch (err) {
-      setError('An error occurred while submitting the question.');
+      await submitQuestion(content, Number(categoryId), token!);
+      navigate(`/dashboard/${categoryId}`);
+    } catch (err: any) {
+      setError(
+        err.message || 'An error occurred while submitting the question.'
+      );
       console.error(err);
     }
   };
 
   const handleCancel = () => {
-    navigate('/dashboard');
+    navigate(`/dashboard/${categoryId}`);
   };
 
   return (
