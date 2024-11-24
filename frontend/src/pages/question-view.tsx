@@ -61,43 +61,49 @@ export const QuestionView: React.FC = () => {
   }
 
   return (
-    <div className='p-4'>
+    <div className='min-h-screen bg-gray-200 p-6'>
       <button
         onClick={handleBack}
-        className='mb-4 text-blue-500 hover:underline'
+        className='mb-6 text-blue-500 hover:underline text-lg'
       >
         &larr; Back to Dashboard
       </button>
-      <div className='bg-white p-6 rounded shadow-md mb-4'>
-        <h2 className='text-2xl mb-2'>{question.content}</h2>
-        <p className='text-sm text-gray-500'>
-          Asked by {question.user.username} on{' '}
+      <div className='bg-white p-6 rounded-lg shadow-lg border mb-6'>
+        <h2 className='text-3xl font-semibold mb-4'>{question.content}</h2>
+        <p className='text-sm text-gray-600'>
+          Asked by{' '}
+          <span className='font-semibold'>{question.user.username}</span> on{' '}
           {new Date(question.created_at).toLocaleString()}
         </p>
         <button
-          className='mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600'
+          className='mt-6 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600'
           onClick={() => setShowAnswerModal(true)}
         >
           Answer
         </button>
       </div>
-      {error && <p className='text-red-500 mb-4'>{error}</p>}{' '}
-      {/* Error Message */}
-      <h3 className='text-xl mb-2'>Answers</h3>
+      {error && <p className='text-red-500 mb-4'>{error}</p>}
+      <h3 className='text-2xl font-semibold mb-4'>Answers</h3>
       {answers.length > 0 ? (
-        <ul>
-          {answers.map((answer) => (
-            <li key={answer.id} className='mb-4 border-b pb-2'>
-              <p>{answer.content}</p>
-              <p className='text-sm text-gray-500'>
-                Answered by {answer.user.username} on{' '}
+        <ul className='space-y-4'>
+          {answers.map((answer, index) => (
+            <li
+              key={answer.id}
+              className={`p-4 rounded-lg ${
+                index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+              } border shadow-sm`}
+            >
+              <p className='text-gray-800'>{answer.content}</p>
+              <p className='text-sm text-gray-500 mt-2'>
+                Answered by{' '}
+                <span className='font-semibold'>{answer.user.username}</span> on{' '}
                 {new Date(answer.created_at).toLocaleString()}
               </p>
             </li>
           ))}
         </ul>
       ) : (
-        <p>No answers yet.</p>
+        <p className='text-gray-600'>No answers yet. Be the first to answer!</p>
       )}
       {showAnswerModal && (
         <AnswerModal

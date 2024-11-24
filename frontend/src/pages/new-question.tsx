@@ -30,7 +30,7 @@ export const NewQuestion = () => {
       const data = await response.json();
 
       if (response.ok) {
-        navigate('/dashboard');
+        navigate(`/dashboard/${categoryId}`);
       } else {
         setError(data.message || 'Failed to submit question.');
       }

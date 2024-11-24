@@ -73,7 +73,11 @@ export const Dashboard = () => {
       <aside className='w-64 bg-gray-200 p-4 overflow-y-auto'>
         <h2 className='text-xl font-semibold mb-4'>Categories</h2>
         {error && <p className='text-red-500'>{error}</p>}
-        <Categories categories={categories} onSelect={handleCategorySelect} />
+        <Categories
+          categories={categories}
+          selectedCategoryId={selectedCategory?.id}
+          onSelect={handleCategorySelect}
+        />
       </aside>
       <main className='flex-1 p-4 overflow-y-auto'>
         <div className='flex justify-between items-center mb-4'>
