@@ -43,7 +43,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(clientBuildPath, 'index.html'));
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = Number(process.env.PORT) || 3000;
 
 // Initialize the database and start the server
 initializeDB()
