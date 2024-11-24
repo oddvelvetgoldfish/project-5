@@ -1,13 +1,9 @@
-// db/mongodb.ts
 import { MongoClient, Db } from 'mongodb';
-
-const MONGO_URI =
-  'mongodb+srv://admin:AEXoQLmD8LNRp1LY@cluster0.ro4hp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
 export let db: Db;
 
 export const initializeDB = async () => {
-  const client = new MongoClient(MONGO_URI);
+  const client = new MongoClient(process.env.MONGODB_URI!);
   await client.connect();
   db = client.db('techtalk'); // Use 'techtalk' database
   console.log('Connected to MongoDB');
