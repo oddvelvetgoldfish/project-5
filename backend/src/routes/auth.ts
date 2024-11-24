@@ -38,7 +38,6 @@ export default function createAuthRoutes(userRepo: UserRepository) {
     }
 
     const user = await userRepo.findByUsername(username);
-    console.log(user);
     if (!user) {
       res.status(400).json({ message: 'Invalid credentials' });
       return;
